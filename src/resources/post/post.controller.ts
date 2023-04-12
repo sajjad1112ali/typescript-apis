@@ -32,11 +32,14 @@ class PostController implements Controller {
         try {
             const { title, body } = req.body;
 
-            const post = await this.PostService.create(title, body);
+            const { file } = req;
+            if (!file) throw new HttpException(400, 'Image is required');
+            const filename = file.filename;
+            const post = await this.PostService.create(title, body, filename);
 
             res.status(201).json({ post });
-        } catch (error) {
-            next(new HttpException(400, 'Cannot create post'));
+        } catch (error: any) {
+            next(new HttpException(400, error.message));
         }
     };
 }
