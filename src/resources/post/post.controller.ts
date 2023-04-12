@@ -5,6 +5,8 @@ import validationMiddleware from '@/middleware/validation.middleware';
 import validate from '@/resources/post/post.validation';
 import PostService from '@/resources/post/post.service';
 
+import { upload } from '@/utils/multer/uploadFile';
+
 class PostController implements Controller {
     public path = '/posts';
     public router = Router();
@@ -17,7 +19,7 @@ class PostController implements Controller {
     private initialiseRoutes(): void {
         this.router.post(
             `${this.path}`,
-            validationMiddleware(validate.create),
+            [upload.single('image'), validationMiddleware(validate.create)],
             this.create
         );
     }
