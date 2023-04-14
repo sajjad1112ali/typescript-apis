@@ -38,14 +38,14 @@ class App {
 
     private initialiseErrorHandling(): void {
         this.express.use(ErrorMiddleware);
-        // this.express.use(function(req,res){
-        //     const status = 500;
-        //     const message = 'Something went wrong';
-        //     res.status(status).send({
-        //         status,
-        //         message,
-        //     });
-        // });
+        this.express.use(function(req,res){
+            const status = 400;
+            const message = 'Route not found';
+            res.status(status).send({
+                status,
+                message,
+            });
+        });
     }
 
     private initialiseDatabaseConnection(): void {
